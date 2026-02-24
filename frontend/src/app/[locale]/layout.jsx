@@ -9,15 +9,30 @@ import { getMessages } from 'next-intl/server';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-    title: "Maktabah El Mukhtar | Official Website",
-    description: "Official web presence for Maktabah El Mukhtar, an Islamic book writing, editing, and publishing institution.",
+    metadataBase: new URL("https://maktabahelmukhtar.vercel.app"),
+    title: {
+        default: "Maktabah El Mukhtar | Islamic Book Publisher",
+        template: "%s | Maktabah El Mukhtar",
+    },
+    description: "Official web presence for Maktabah El Mukhtar, an Islamic book writing, editing, and publishing institution based in Malaysia.",
+    keywords: ["Islamic books", "Maktabah El Mukhtar", "Islamic publishing", "Malaysia", "Islamic literature", "Arabic books"],
+    authors: [{ name: "Maktabah El Mukhtar" }],
+    creator: "Maktabah El Mukhtar",
     icons: {
         icon: "/mem-logo.jpg",
         apple: "/mem-logo.jpg",
     },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    },
     openGraph: {
-        title: "Maktabah El Mukhtar | Official Website",
-        description: "Official web presence for Maktabah El Mukhtar, an Islamic book writing, editing, and publishing institution.",
+        type: "website",
+        siteName: "Maktabah El Mukhtar",
+        title: "Maktabah El Mukhtar | Islamic Book Publisher",
+        description: "Official web presence for Maktabah El Mukhtar, an Islamic book writing, editing, and publishing institution based in Malaysia.",
+        url: "https://maktabahelmukhtar.vercel.app",
         images: [
             {
                 url: "/mem-logo.jpg",
@@ -26,6 +41,12 @@ export const metadata = {
                 alt: "Maktabah El Mukhtar Logo",
             },
         ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Maktabah El Mukhtar | Islamic Book Publisher",
+        description: "Official web presence for Maktabah El Mukhtar, an Islamic book writing, editing, and publishing institution based in Malaysia.",
+        images: ["/mem-logo.jpg"],
     },
 };
 
