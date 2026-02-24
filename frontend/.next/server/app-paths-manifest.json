@@ -1,0 +1,11 @@
+{
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/feed/route": "app/api/feed/route.js",
+  "/api/books/route": "app/api/books/route.js",
+  "/[locale]/page": "app/[locale]/page.js",
+  "/[locale]/books/page": "app/[locale]/books/page.js",
+  "/[locale]/feed/page": "app/[locale]/feed/page.js",
+  "/[locale]/payment/page": "app/[locale]/payment/page.js",
+  "/[locale]/gallery/page": "app/[locale]/gallery/page.js",
+  "/[locale]/contact/page": "app/[locale]/contact/page.js"
+}

@@ -1,0 +1,25 @@
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+exports.id = "_rsc_messages_en_json";
+exports.ids = ["_rsc_messages_en_json"];
+exports.modules = {
+
+/***/ "(rsc)/./messages/en.json":
+/*!**************************!*\
+  !*** ./messages/en.json ***!
+  \**************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('{"Navbar":{"home":"Home","catalog":"Catalog","feed":"Daily Feed","gallery":"Gallery","contact":"Contact","payment":"Payment","admin":"Admin"},"HomePage":{"title":"Preserving Knowledge, Inspiring Faith.","subtitle":"Official web presence for Maktabah El Mukhtar, providing authentic Islamic literature and daily religious guidance.","explore":"Explore Catalog"},"Books":{"title":"Book Catalog","subtitle":"Discover our collection of authentic Islamic literature.","search":"Search by title or author...","order":"Order via WhatsApp","no_results":"No books found matching your search."},"Feed":{"title":"Daily Religious Feed","subtitle":"Daily spiritual enrichment, Hadith, and institutional announcements.","no_results":"No feed items for today. Check back soon!"},"Gallery":{"title":"Our Gallery","subtitle":"A glimpse inside Maktabah El Mukhtar and our preservation efforts."},"Contact":{"title":"Get in Touch","subtitle":"Have questions about our publications or want to visit us? We\'d love to hear from you.","info_title":"Contact Information","email_label":"Email Us","phone_label":"Call / WhatsApp","visit_label":"Visit Us","form_title":"Send a Message","form_name":"Full Name","form_name_placeholder":"Your Name","form_email":"Email Address","form_email_placeholder":"your@email.com","form_subject":"Subject","form_subject_placeholder":"How can we help?","form_message":"Message","form_message_placeholder":"Tell us about your inquiry...","form_submit":"Send Message"},"Payment":{"title":"Payment Methods","subtitle":"Please use the following details for manual payment processing. Once paid, send the receipt to our WhatsApp for order confirmation.","bank_transfer":"Bank Transfer","scan_to_pay":"Scan to Pay","supports":"Supports Bkash, Nagad, and Rocket","contribution":"Your contribution supports the preservation and publication of authentic Islamic literature."},"Footer":{"about_title":"Maktabah El Mukhtar","about_desc":"An Islamic book writing, editing, and publishing institution committed to spreading authentic religious knowledge.","links_title":"Quick Links","contact_title":"Contact Info","contact_whatsapp":"WhatsApp: Click on any book to order","all_rights":"All rights reserved."}}');
+
+/***/ })
+
+};
+;

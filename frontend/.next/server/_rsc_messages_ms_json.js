@@ -1,0 +1,25 @@
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+exports.id = "_rsc_messages_ms_json";
+exports.ids = ["_rsc_messages_ms_json"];
+exports.modules = {
+
+/***/ "(rsc)/./messages/ms.json":
+/*!**************************!*\
+  !*** ./messages/ms.json ***!
+  \**************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('{"Navbar":{"home":"Utama","catalog":"Katalog","feed":"Suapan Harian","gallery":"Galeri","contact":"Hubungi","payment":"Pembayaran","admin":"Admin"},"HomePage":{"title":"Memelihara Ilmu, Menginspirasi Iman.","subtitle":"Kehadiran web rasmi untuk Maktabah El Mukhtar, menyediakan literatur Islam yang sahih dan panduan agama harian.","explore":"Teroka Katalog"},"Books":{"title":"Katalog Buku","subtitle":"Temui koleksi literatur Islam kami yang sahih.","search":"Cari mengikut tajuk atau pengarang...","order":"Pesan melalui WhatsApp","no_results":"Tiada buku ditemui yang sepadan dengan carian anda."},"Feed":{"title":"Suapan Agama Harian","subtitle":"Pengayaan rohani harian, Hadis, dan pengumuman institusi.","no_results":"Tiada item suapan untuk hari ini. Sila semak semula nanti!"},"Gallery":{"title":"Galeri Kami","subtitle":"Sekilas pandang di dalam Maktabah El Mukhtar dan usaha pemeliharaan kami."},"Contact":{"title":"Hubungi Kami","subtitle":"Mempunyai soalan tentang penerbitan kami atau ingin melawat kami? Kami ingin mendengar daripada anda.","info_title":"Maklumat Hubungan","email_label":"E-mel Kami","phone_label":"Telefon / WhatsApp","visit_label":"Lawati Kami","form_title":"Hantar Mesej","form_name":"Nama Penuh","form_name_placeholder":"Nama Anda","form_email":"Alamat E-mel","form_email_placeholder":"anda@emel.com","form_subject":"Subjek","form_subject_placeholder":"Bagaimana kami boleh membantu?","form_message":"Mesej","form_message_placeholder":"Beritahu kami tentang pertanyaan anda...","form_submit":"Hantar Mesej"},"Payment":{"title":"Kaedah Pembayaran","subtitle":"Sila gunakan butiran berikut untuk pemprosesan pembayaran manual. Setelah dibayar, hantar resit ke WhatsApp kami untuk pengesahan pesanan.","bank_transfer":"Pindahan Bank","scan_to_pay":"Imbas untuk Bayar","supports":"Menyokong Bkash, Nagad, dan Rocket","contribution":"Sumbangan anda menyokong pemeliharaan dan penerbitan literatur Islam yang sahih."},"Footer":{"about_title":"Maktabah El Mukhtar","about_desc":"Institusi penulisan, penyuntingan, dan penerbitan buku Islam yang komited untuk menyebarkan ilmu agama yang sahih.","links_title":"Pautan Pantas","contact_title":"Maklumat Hubungan","contact_whatsapp":"WhatsApp: Klik pada mana-mana buku untuk memesan","all_rights":"Semua hak terpelihara."}}');
+
+/***/ })
+
+};
+;
