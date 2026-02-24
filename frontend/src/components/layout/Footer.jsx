@@ -61,6 +61,14 @@ const Footer = () => {
                             <p className="flex items-center gap-2">
                                 <Mail className="h-4 w-4 text-primary/40" /> maktabahelmukhtar@gmail.com
                             </p>
+                            <a
+                                href="https://wa.me/601136787525"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold transition-colors"
+                            >
+                                <MessageSquare className="h-4 w-4" /> +60 11-3678 7525
+                            </a>
                             <p className="flex items-start gap-2">
                                 <MapPin className="h-4 w-4 mt-1 text-primary/40 flex-shrink-0" />
                                 <span>{t('address_val')}</span>
@@ -69,6 +77,7 @@ const Footer = () => {
                                 {t('contact_whatsapp')}
                             </p>
                         </div>
+
                     </div>
                 </div>
                 <div className="mt-16 border-t border-primary/10 pt-8 text-center text-sm text-primary/50">
