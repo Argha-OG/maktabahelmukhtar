@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { MessageSquare, Search, BookOpen } from "lucide-react";
 import { useTranslations } from 'next-intl';
+import BookCard from "@/components/BookCard";
 
 export default function BooksClient() {
     const t = useTranslations('Books');
@@ -50,37 +51,7 @@ export default function BooksClient() {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {filteredBooks.map((book) => (
-                        <div key={book._id} className="bg-white border rounded-xl overflow-hidden hover:shadow-2xl transition-all group flex flex-col h-full">
-                            <div className="relative h-64 overflow-hidden bg-gray-100">
-                                <img
-                                    src={book.coverImage}
-                                    alt={book.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                                <div className="absolute top-2 right-2">
-                                    <span className="bg-primary/90 text-white text-xs px-3 py-1 rounded-full font-semibold">
-                                        {book.category}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="p-5 flex-grow flex flex-col">
-                                <h3 className="font-bold text-lg mb-1 text-primary group-hover:text-primary-dark line-clamp-2">
-                                    {book.title}
-                                </h3>
-                                <p className="text-sm text-gray-500 mb-3 italic">By {book.author}</p>
-                                <p className="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">
-                                    {book.description}
-                                </p>
-                                <a
-                                    href={`https://wa.me/${book.whatsappLink}?text=I would like to order: ${book.title}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full bg-primary text-white py-2 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-primary-dark transition-colors"
-                                >
-                                    <MessageSquare className="h-4 w-4" /> {t('order')}
-                                </a>
-                            </div>
-                        </div>
+                        <BookCard key={book._id} book={book} />
                     ))}
                 </div>
             )}

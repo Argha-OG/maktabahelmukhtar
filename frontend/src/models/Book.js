@@ -22,6 +22,20 @@ const BookSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please provide a cover image URL."],
         },
+        authorImage: {
+            type: String,
+        },
+        authorBio: {
+            type: String,
+        },
+        price: {
+            type: Number,
+            default: 0,
+        },
+        isBestSeller: {
+            type: Boolean,
+            default: false,
+        },
         whatsappLink: {
             type: String,
             required: [true, "Please provide a WhatsApp order link."],
@@ -35,4 +49,10 @@ const BookSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default mongoose.models.Book || mongoose.model("Book", BookSchema);
+// Ensure model is updated even if cached with old schema
+if (mongoose.models.Book) {
+    delete mongoose.models.Book;
+}
+
+const Book = mongoose.model("Book", BookSchema);
+export default Book;

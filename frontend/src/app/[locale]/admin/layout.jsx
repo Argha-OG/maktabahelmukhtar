@@ -2,8 +2,9 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { Link, usePathname, useRouter } from "@/navigation";
-import { LayoutDashboard, Book, Newspaper, LogOut, Loader2, Home } from "lucide-react";
+import { LayoutDashboard, Book, Newspaper, LogOut, Loader2, Home, Users, Image as ImageIcon, Mail } from "lucide-react";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function AdminLayout({ children }) {
     const { data: session, status } = useSession();
@@ -38,7 +39,13 @@ export default function AdminLayout({ children }) {
             <aside className="w-full md:w-64 bg-primary text-white flex-shrink-0">
                 <div className="p-6">
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl mb-8">
-                        <Book className="h-6 w-6" /> Maktabah Admin
+                        <Image
+                            src="/mem-logo.jpg"
+                            alt="Maktabah El Mukhtar Logo"
+                            width={24}
+                            height={24}
+                            className="h-6 w-6 object-contain"
+                        /> Maktabah Admin
                     </Link>
                     <nav className="space-y-1">
                         <Link
@@ -60,7 +67,35 @@ export default function AdminLayout({ children }) {
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${pathname.startsWith("/admin/feed") ? "bg-white/10" : "hover:bg-white/5"
                                 }`}
                         >
-                            <Newspaper className="h-5 w-5" /> Manage Feed
+                            <Newspaper className="h-5 w-5" /> Manage Blogs
+                        </Link>
+                        <Link
+                            href="/admin/authors"
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${pathname.startsWith("/admin/authors") ? "bg-white/10" : "hover:bg-white/5"
+                                }`}
+                        >
+                            <Users className="h-5 w-5" /> Manage Authors
+                        </Link>
+                        <Link
+                            href="/admin/gallery"
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${pathname.startsWith("/admin/gallery") ? "bg-white/10" : "hover:bg-white/5"
+                                }`}
+                        >
+                            <ImageIcon className="h-5 w-5" /> Manage Gallery
+                        </Link>
+                        <Link
+                            href="/admin/ads"
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${pathname.startsWith("/admin/ads") ? "bg-white/10" : "hover:bg-white/5"
+                                }`}
+                        >
+                            <Home className="h-5 w-5" /> Manage Ads
+                        </Link>
+                        <Link
+                            href="/admin/leads"
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${pathname.startsWith("/admin/leads") ? "bg-white/10" : "hover:bg-white/5"
+                                }`}
+                        >
+                            <Mail className="h-5 w-5" /> Inbound Leads
                         </Link>
                     </nav>
                 </div>

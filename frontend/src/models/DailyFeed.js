@@ -4,12 +4,22 @@ const DailyFeedSchema = new mongoose.Schema(
     {
         type: {
             type: String,
-            enum: ["Quote", "Hadith", "Announcement", "Newsletter"],
+            enum: ["Quote", "Hadith", "Announcement", "Newsletter", "Article"],
             required: true,
+        },
+        title: {
+            type: String,
+            required: [true, "Please provide a title."],
+        },
+        image: {
+            type: String,
         },
         content: {
             type: String,
             required: true,
+        },
+        description: {
+            type: String, // Full article/blog content
         },
         source: {
             type: String, // e.g., Bukhari, Muslim, or institutional source
@@ -26,4 +36,10 @@ const DailyFeedSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default mongoose.models.DailyFeed || mongoose.model("DailyFeed", DailyFeedSchema);
+// Force model refresh for schema changes in development
+if (mongoose.models.DailyFeed) {
+    delete mongoose.models.DailyFeed;
+}
+
+const DailyFeed = mongoose.model("DailyFeed", DailyFeedSchema);
+export default DailyFeed;

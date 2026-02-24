@@ -13,6 +13,13 @@ module.exports = {
           light: "#E3F2FD",
           dark: "#002D62",
         },
+        glass: {
+          white: "rgba(255, 255, 255, 0.1)",
+          border: "rgba(255, 255, 255, 0.2)",
+        }
+      },
+      backdropBlur: {
+        xs: '2px',
       },
     },
   },

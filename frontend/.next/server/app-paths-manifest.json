@@ -1,11 +1,14 @@
 {
+  "/api/admin/ads/route": "app/api/admin/ads/route.js",
+  "/api/admin/leads/route": "app/api/admin/leads/route.js",
+  "/api/admin/gallery/route": "app/api/admin/gallery/route.js",
+  "/api/admin/authors/route": "app/api/admin/authors/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/feed/route": "app/api/feed/route.js",
-  "/api/books/route": "app/api/books/route.js",
   "/[locale]/page": "app/[locale]/page.js",
-  "/[locale]/books/page": "app/[locale]/books/page.js",
-  "/[locale]/feed/page": "app/[locale]/feed/page.js",
-  "/[locale]/payment/page": "app/[locale]/payment/page.js",
-  "/[locale]/gallery/page": "app/[locale]/gallery/page.js",
-  "/[locale]/contact/page": "app/[locale]/contact/page.js"
+  "/[locale]/contact/page": "app/[locale]/contact/page.js",
+  "/[locale]/admin/books/page": "app/[locale]/admin/books/page.js",
+  "/[locale]/admin/ads/page": "app/[locale]/admin/ads/page.js",
+  "/[locale]/admin/leads/page": "app/[locale]/admin/leads/page.js",
+  "/[locale]/admin/gallery/page": "app/[locale]/admin/gallery/page.js",
+  "/[locale]/admin/authors/page": "app/[locale]/admin/authors/page.js"
 }

@@ -18,10 +18,10 @@ export default function Payment() {
                         <Landmark className="h-12 w-12 text-primary mx-auto mb-4" />
                         <h2 className="text-xl font-bold mb-4">{t('bank_transfer')}</h2>
                         <div className="space-y-2 text-gray-700">
-                            <p className="font-semibold">Bank Name: Islami Bank</p>
-                            <p>Account Name: Maktabah El Mukhtar</p>
-                            <p>Account Number: 123 4567 8901</p>
-                            <p>Branch: Main Branch</p>
+                            <p className="font-semibold">{t('bank_name')}: {t('bank_name_val')}</p>
+                            <p>{t('acc_name')}: {t('acc_name_val')}</p>
+                            <p>{t('acc_num')}: {t('acc_num_val')}</p>
+                            <p>{t('branch')}: {t('branch_val')}</p>
                         </div>
                     </div>
 
@@ -31,7 +31,7 @@ export default function Payment() {
                         <h2 className="text-xl font-bold mb-4">{t('scan_to_pay')}</h2>
                         <div className="bg-gray-100 p-4 rounded-xl inline-block mb-4">
                             <div className="w-40 h-40 bg-gray-300 flex items-center justify-center text-gray-500 rounded border-2 border-dashed border-gray-400">
-                                <span className="text-xs">QR Code Placeholder</span>
+                                <span className="text-xs">{t('qr_placeholder')}</span>
                             </div>
                         </div>
                         <p className="text-sm text-gray-500">{t('supports')}</p>
