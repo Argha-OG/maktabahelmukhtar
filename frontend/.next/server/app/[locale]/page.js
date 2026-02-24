@@ -48,7 +48,7 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ "../../client/components/action-async-storage.external":
+/***/ "./action-async-storage.external":
 /*!*******************************************************************************!*\
   !*** external "next/dist/client/components/action-async-storage.external.js" ***!
   \*******************************************************************************/
@@ -59,7 +59,7 @@ module.exports = require("next/dist/client/components/action-async-storage.exter
 
 /***/ }),
 
-/***/ "../../client/components/request-async-storage.external":
+/***/ "./request-async-storage.external":
 /*!********************************************************************************!*\
   !*** external "next/dist/client/components/request-async-storage.external.js" ***!
   \********************************************************************************/
@@ -70,7 +70,7 @@ module.exports = require("next/dist/client/components/request-async-storage.exte
 
 /***/ }),
 
-/***/ "../../client/components/static-generation-async-storage.external":
+/***/ "./static-generation-async-storage.external":
 /*!******************************************************************************************!*\
   !*** external "next/dist/client/components/static-generation-async-storage.external.js" ***!
   \******************************************************************************************/
@@ -453,7 +453,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next","vendor-chunks/next-auth","vendor-chunks/@babel","vendor-chunks/@swc","vendor-chunks/framer-motion","vendor-chunks/@formatjs","vendor-chunks/use-intl","vendor-chunks/next-intl","vendor-chunks/lucide-react","vendor-chunks/motion-dom","vendor-chunks/intl-messageformat","vendor-chunks/react-hot-toast","vendor-chunks/goober","vendor-chunks/motion-utils"], () => (__webpack_exec__("(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2F%5Blocale%5D%2Fpage&page=%2F%5Blocale%5D%2Fpage&appPaths=%2F%5Blocale%5D%2Fpage&pagePath=private-next-app-dir%2F%5Blocale%5D%2Fpage.jsx&appDir=D%3A%5CWebsite%5Cmaktabahelmukhtar%5Cfrontend%5Csrc%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=D%3A%5CWebsite%5Cmaktabahelmukhtar%5Cfrontend&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!")));
+var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next","vendor-chunks/next-auth","vendor-chunks/@babel","vendor-chunks/framer-motion","vendor-chunks/@formatjs","vendor-chunks/use-intl","vendor-chunks/next-intl","vendor-chunks/motion-dom","vendor-chunks/lucide-react","vendor-chunks/intl-messageformat","vendor-chunks/react-hot-toast","vendor-chunks/goober","vendor-chunks/@swc","vendor-chunks/motion-utils"], () => (__webpack_exec__("(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2F%5Blocale%5D%2Fpage&page=%2F%5Blocale%5D%2Fpage&appPaths=%2F%5Blocale%5D%2Fpage&pagePath=private-next-app-dir%2F%5Blocale%5D%2Fpage.jsx&appDir=D%3A%5CWebsite%5Cmaktabahelmukhtar%5Cfrontend%5Csrc%5Capp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=D%3A%5CWebsite%5Cmaktabahelmukhtar%5Cfrontend&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!")));
 module.exports = __webpack_exports__;
 
 })();

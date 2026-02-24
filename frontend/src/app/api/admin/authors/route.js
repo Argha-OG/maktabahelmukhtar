@@ -1,66 +1,57 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
-import Author from "@/models/Author";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
+const BACKEND_URL = process.env.BACKEND_URL;
+
+async function getAdminSession() {
+    const session = await getServerSession(authOptions);
+    return session && session.user.role === "admin" ? session : null;
+}
+
 export async function GET() {
     try {
-        await dbConnect();
-        const authors = await Author.find({});
-        return NextResponse.json({ success: true, data: authors });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        const res = await fetch(`${BACKEND_URL}/api/admin/authors`);
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
+    } catch (err) {
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }
 
 export async function POST(req) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || session.user.role !== "admin") {
-            return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
-        }
-
-        await dbConnect();
+        if (!await getAdminSession()) return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
         const body = await req.json();
-        const author = await Author.create(body);
-        return NextResponse.json({ success: true, data: author }, { status: 201 });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        const res = await fetch(`${BACKEND_URL}/api/admin/authors`, {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+        });
+        return NextResponse.json(await res.json(), { status: res.status });
+    } catch (err) {
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }
 
 export async function PUT(req) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || session.user.role !== "admin") {
-            return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
-        }
-
-        await dbConnect();
+        if (!await getAdminSession()) return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
         const body = await req.json();
-        const { id, ...updateData } = body;
-        const author = await Author.findByIdAndUpdate(id, updateData, { new: true });
-        return NextResponse.json({ success: true, data: author });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        const res = await fetch(`${BACKEND_URL}/api/admin/authors`, {
+            method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+        });
+        return NextResponse.json(await res.json(), { status: res.status });
+    } catch (err) {
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }
 
 export async function DELETE(req) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || session.user.role !== "admin") {
-            return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
-        }
-
+        if (!await getAdminSession()) return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
         const { searchParams } = new URL(req.url);
-        const id = searchParams.get("id");
-
-        await dbConnect();
-        await Author.findByIdAndDelete(id);
-        return NextResponse.json({ success: true, message: "Author deleted" });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        const res = await fetch(`${BACKEND_URL}/api/admin/authors?id=${searchParams.get("id")}`, { method: "DELETE" });
+        return NextResponse.json(await res.json(), { status: res.status });
+    } catch (err) {
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }

@@ -5,11 +5,15 @@ import { Quote, MessageSquare, Bell, Calendar, BookOpen, ArrowRight } from "luci
 import { useTranslations } from 'next-intl';
 import { motion } from "framer-motion";
 import { Link } from "@/navigation";
+import Pagination from "@/components/Pagination";
+
+const FEED_PER_PAGE = 9;
 
 export default function FeedClient() {
     const t = useTranslations('Feed');
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         fetch("/api/feed")
@@ -19,6 +23,12 @@ export default function FeedClient() {
                 setLoading(false);
             });
     }, []);
+
+    const totalPages = Math.ceil(items.length / FEED_PER_PAGE);
+    const paginatedItems = items.slice(
+        (currentPage - 1) * FEED_PER_PAGE,
+        currentPage * FEED_PER_PAGE
+    );
 
     const getIcon = (type) => {
         switch (type) {
@@ -65,63 +75,81 @@ export default function FeedClient() {
                         <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary/20 border-t-primary"></div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                        {items.map((item, idx) => (
-                            <motion.div
-                                key={item._id}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="glass-card group flex flex-col h-full border-primary/5 shadow-xl shadow-primary/5 hover:shadow-primary/10 transition-all overflow-hidden"
-                            >
-                                <div className="relative h-64 overflow-hidden">
-                                    <Link href={`/feed/${item._id}`}>
-                                        <img
-                                            src={item.image || "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800"}
-                                            alt={item.title}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                        />
-                                    </Link>
-                                    <div className="absolute top-4 left-4">
-                                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md border border-white/20 font-bold text-[10px] uppercase tracking-widest ${getColorClass(item.type)}`}>
-                                            {getIcon(item.type)}
-                                            {item.type}
+                    <>
+                        {/* Results count */}
+                        {items.length > 0 && (
+                            <p className="text-sm text-primary/50 mb-8 font-medium">
+                                Showing {(currentPage - 1) * FEED_PER_PAGE + 1}–{Math.min(currentPage * FEED_PER_PAGE, items.length)} of {items.length} entries
+                            </p>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                            {paginatedItems.map((item, idx) => (
+                                <motion.div
+                                    key={item._id}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: idx * 0.05 }}
+                                    className="glass-card group flex flex-col h-full border-primary/5 shadow-xl shadow-primary/5 hover:shadow-primary/10 transition-all overflow-hidden"
+                                >
+                                    <div className="relative h-64 overflow-hidden">
+                                        <Link href={`/feed/${item._id}`}>
+                                            <img
+                                                src={item.image || "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800"}
+                                                alt={item.title}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                            />
+                                        </Link>
+                                        <div className="absolute top-4 left-4">
+                                            <div className={`flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md border border-white/20 font-bold text-[10px] uppercase tracking-widest ${getColorClass(item.type)}`}>
+                                                {getIcon(item.type)}
+                                                {item.type}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="p-8 flex flex-col flex-grow">
-                                    <div className="flex items-center gap-2 text-primary/40 text-[10px] font-black uppercase tracking-widest mb-4">
-                                        <Calendar className="h-3 w-3" />
-                                        {new Date(item.date).toLocaleDateString()}
+                                    <div className="p-8 flex flex-col flex-grow">
+                                        <div className="flex items-center gap-2 text-primary/40 text-[10px] font-black uppercase tracking-widest mb-4">
+                                            <Calendar className="h-3 w-3" />
+                                            {new Date(item.date).toLocaleDateString()}
+                                        </div>
+                                        <Link href={`/feed/${item._id}`}>
+                                            <h3 className="text-2xl font-black text-primary-dark mb-4 leading-tight group-hover:text-primary transition-colors">
+                                                {item.title}
+                                            </h3>
+                                        </Link>
+                                        <p className="text-primary/60 line-clamp-3 mb-8 flex-grow font-medium leading-relaxed italic">
+                                            "{item.content}"
+                                        </p>
+
+                                        <Link
+                                            href={`/feed/${item._id}`}
+                                            className="inline-flex items-center gap-2 text-primary font-bold text-sm group-hover:gap-3 transition-all"
+                                        >
+                                            {t('read_selection')} <ArrowRight className="h-4 w-4" />
+                                        </Link>
                                     </div>
-                                    <Link href={`/feed/${item._id}`}>
-                                        <h3 className="text-2xl font-black text-primary-dark mb-4 leading-tight group-hover:text-primary transition-colors">
-                                            {item.title}
-                                        </h3>
-                                    </Link>
-                                    <p className="text-primary/60 line-clamp-3 mb-8 flex-grow font-medium leading-relaxed italic">
-                                        "{item.content}"
-                                    </p>
+                                </motion.div>
+                            ))}
 
-                                    <Link
-                                        href={`/feed/${item._id}`}
-                                        className="inline-flex items-center gap-2 text-primary font-bold text-sm group-hover:gap-3 transition-all"
-                                    >
-                                        {t('read_selection')} <ArrowRight className="h-4 w-4" />
-                                    </Link>
+                            {items.length === 0 && (
+                                <div className="col-span-full text-center py-40 glass-card bg-primary/5 border-dashed border-2 border-primary/10">
+                                    <Calendar className="h-16 w-16 mx-auto mb-6 text-primary/20" />
+                                    <h3 className="text-2xl font-bold text-primary-dark">{t('no_results_title')}</h3>
+                                    <p className="text-primary/60">{t('no_results_subtitle')}</p>
                                 </div>
-                            </motion.div>
-                        ))}
+                            )}
+                        </div>
 
-                        {items.length === 0 && (
-                            <div className="col-span-full text-center py-40 glass-card bg-primary/5 border-dashed border-2 border-primary/10">
-                                <Calendar className="h-16 w-16 mx-auto mb-6 text-primary/20" />
-                                <h3 className="text-2xl font-bold text-primary-dark">{t('no_results_title')}</h3>
-                                <p className="text-primary/60">{t('no_results_subtitle')}</p>
-                            </div>
-                        )}
-                    </div>
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={(page) => {
+                                setCurrentPage(page);
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                        />
+                    </>
                 )}
             </div>
         </div>

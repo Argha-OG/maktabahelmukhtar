@@ -1,15 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MessageSquare, Search, BookOpen } from "lucide-react";
+import { Search, BookOpen } from "lucide-react";
 import { useTranslations } from 'next-intl';
 import BookCard from "@/components/BookCard";
+import Pagination from "@/components/Pagination";
+
+const BOOKS_PER_PAGE = 12;
 
 export default function BooksClient() {
     const t = useTranslations('Books');
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         fetch("/api/books")
@@ -20,9 +24,20 @@ export default function BooksClient() {
             });
     }, []);
 
+    // Reset to page 1 when search changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
+
     const filteredBooks = books.filter((book) =>
         book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         book.author.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const totalPages = Math.ceil(filteredBooks.length / BOOKS_PER_PAGE);
+    const paginatedBooks = filteredBooks.slice(
+        (currentPage - 1) * BOOKS_PER_PAGE,
+        currentPage * BOOKS_PER_PAGE
     );
 
     return (
@@ -49,11 +64,29 @@ export default function BooksClient() {
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {filteredBooks.map((book) => (
-                        <BookCard key={book._id} book={book} />
-                    ))}
-                </div>
+                <>
+                    {/* Results count */}
+                    {!loading && filteredBooks.length > 0 && (
+                        <p className="text-sm text-gray-500 mb-6">
+                            Showing {(currentPage - 1) * BOOKS_PER_PAGE + 1}–{Math.min(currentPage * BOOKS_PER_PAGE, filteredBooks.length)} of {filteredBooks.length} books
+                        </p>
+                    )}
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {paginatedBooks.map((book) => (
+                            <BookCard key={book._id} book={book} />
+                        ))}
+                    </div>
+
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={(page) => {
+                            setCurrentPage(page);
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                    />
+                </>
             )}
 
             {!loading && filteredBooks.length === 0 && (

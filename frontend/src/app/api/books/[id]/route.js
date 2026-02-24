@@ -1,49 +1,51 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
-import Book from "@/models/Book";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+
+const BACKEND_URL = process.env.BACKEND_URL;
 
 export async function GET(req, { params }) {
     try {
-        await dbConnect();
-        const book = await Book.findById(params.id);
-        if (!book) return NextResponse.json({ success: false, error: "Book not found" }, { status: 404 });
-        return NextResponse.json({ success: true, data: book });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        const res = await fetch(`${BACKEND_URL}/api/books/${params.id}`);
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
+    } catch (err) {
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }
 
 export async function PUT(req, { params }) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || session.user.role !== "admin") {
-            return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
-        }
+        const session = await getAdminSession();
+        if (!session) return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
 
-        await dbConnect();
         const body = await req.json();
-        const book = await Book.findByIdAndUpdate(params.id, body, { new: true, runValidators: true });
-        if (!book) return NextResponse.json({ success: false, error: "Book not found" }, { status: 404 });
-        return NextResponse.json({ success: true, data: book });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        const res = await fetch(`${BACKEND_URL}/api/books/${params.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
+    } catch (err) {
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }
 
 export async function DELETE(req, { params }) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || session.user.role !== "admin") {
-            return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
-        }
+        const session = await getAdminSession();
+        if (!session) return NextResponse.json({ success: false, error: "Not authorized" }, { status: 401 });
 
-        await dbConnect();
-        const book = await Book.findByIdAndDelete(params.id);
-        if (!book) return NextResponse.json({ success: false, error: "Book not found" }, { status: 404 });
-        return NextResponse.json({ success: true, data: {} });
-    } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        const res = await fetch(`${BACKEND_URL}/api/books/${params.id}`, { method: "DELETE" });
+        const data = await res.json();
+        return NextResponse.json(data, { status: res.status });
+    } catch (err) {
+        return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
+}
+
+async function getAdminSession() {
+    const { getServerSession } = await import("next-auth/next");
+    const { authOptions } = await import("@/lib/auth");
+    const session = await getServerSession(authOptions);
+    return session && session.user.role === "admin" ? session : null;
 }
