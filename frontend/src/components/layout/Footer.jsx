@@ -73,9 +73,7 @@ const Footer = () => {
                                 <MapPin className="h-4 w-4 mt-1 text-primary/40 flex-shrink-0" />
                                 <span>{t('address_val')}</span>
                             </p>
-                            <p className="bg-primary/5 p-4 rounded-xl border border-primary/10 italic text-[11px] leading-relaxed">
-                                {t('contact_whatsapp')}
-                            </p>
+
                         </div>
 
                     </div>
