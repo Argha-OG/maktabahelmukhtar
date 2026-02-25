@@ -62,7 +62,7 @@ const Footer = () => {
                                 <Mail className="h-4 w-4 text-primary/40" /> maktabahelmukhtar@gmail.com
                             </p>
                             <a
-                                href="https://wa.me/601136787525"
+                                href="https://wa.me/60195328616"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold transition-colors"

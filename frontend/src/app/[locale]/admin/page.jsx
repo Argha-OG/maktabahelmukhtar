@@ -141,7 +141,7 @@ export default function AdminDashboard() {
                         <h2 className="text-2xl font-black tracking-tight mb-4 text-white">Institutional Support</h2>
                         <p className="text-white/60 font-medium text-sm leading-relaxed mb-8">Need assistance with the repository or management tools? Our technical team is available for elite support.</p>
                     </div>
-                    <Link href="https://wa.me/601136787525" target="_blank" className="w-full bg-white text-primary-dark py-5 rounded-2xl font-black text-xs uppercase tracking-widest text-center hover:bg-primary hover:text-white transition-all shadow-xl">
+                    <Link href="https://wa.me/60195328616" target="_blank" className="w-full bg-white text-primary-dark py-5 rounded-2xl font-black text-xs uppercase tracking-widest text-center hover:bg-primary hover:text-white transition-all shadow-xl">
                         Contact Tech Support
                     </Link>
                 </div>

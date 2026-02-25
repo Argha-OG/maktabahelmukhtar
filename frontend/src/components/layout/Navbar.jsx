@@ -91,7 +91,7 @@ const Navbar = () => {
 
                         {/* WhatsApp — desktop only */}
                         <a
-                            href="https://wa.me/601136787525"
+                            href="https://wa.me/60195328616"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hidden md:flex btn-premium bg-primary text-white hover:bg-primary-dark shadow-md items-center gap-2 text-sm"
@@ -140,7 +140,7 @@ const Navbar = () => {
 
                             <div className="border-t border-primary/10 mt-2 pt-3">
                                 <a
-                                    href="https://wa.me/601136787525"
+                                    href="https://wa.me/60195328616"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={() => setMobileOpen(false)}

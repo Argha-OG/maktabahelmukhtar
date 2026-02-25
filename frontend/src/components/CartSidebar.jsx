@@ -120,7 +120,7 @@ export default function CartSidebar() {
                                 <button
                                     onClick={() => {
                                         const message = `Assalam admin, saya ingin membuat pesanan:\n\n${cart.map(item => `- ${item.title} (x${item.quantity})`).join('\n')}\n\nSila maklumkan jumlah termasuk pos. Terima kasih.`;
-                                        const waLink = `https://wa.me/601136787525?text=${encodeURIComponent(message)}`;
+                                        const waLink = `https://wa.me/60195328616?text=${encodeURIComponent(message)}`;
                                         window.open(waLink, '_blank');
                                     }}
                                     className="w-full btn-premium bg-primary text-white py-4 shadow-xl shadow-primary/20 flex items-center justify-center gap-2 hover:bg-primary-dark transition-all group"

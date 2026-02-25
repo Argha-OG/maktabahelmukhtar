@@ -70,7 +70,7 @@ export default function BookCard({ book }) {
                         <ShoppingCart className="h-4 w-4" /> {t('add_to_cart')}
                     </button>
                     <a
-                        href={`https://wa.me/${book.whatsappLink}?text=I would like to order: ${book.title}`}
+                        href={`https://wa.me/${book.whatsappLink || '60195328616'}?text=${encodeURIComponent(`Assalam Admin, saya ingin memesan:\n📚 Buku: ${book.title}\n💰 Harga: RM ${book.price}\n\nSila konfirmasi.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-white/50 backdrop-blur-sm border border-primary/10 p-2.5 rounded-xl text-primary hover:bg-primary hover:text-white transition-all shadow-sm"

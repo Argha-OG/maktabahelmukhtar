@@ -119,7 +119,7 @@ export default function BookManagement() {
                 authorBio: "",
                 price: 35,
                 isBestSeller: false,
-                whatsappLink: "601136787525",
+                whatsappLink: "60195328616",
                 category: "General",
             });
         }

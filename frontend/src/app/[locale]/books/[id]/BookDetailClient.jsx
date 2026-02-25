@@ -15,12 +15,20 @@ import {
     Building,
     CheckCircle,
     Tag,
-    ArrowRight
+    ArrowRight,
+    Plus,
+    Minus,
+    X,
+    QrCode,
+    Upload,
+    Send,
 } from "lucide-react";
 import { Link, useRouter } from "@/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from 'next-intl';
 import BookCard from "@/components/BookCard";
+
+const WA_NUMBER = "60195328616";
 
 export default function BookDetailClient({ id }) {
     const t = useTranslations('Books');
@@ -28,6 +36,8 @@ export default function BookDetailClient({ id }) {
     const [relatedBooks, setRelatedBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [scrolled, setScrolled] = useState(false);
+    const [quantity, setQuantity] = useState(1);
+    const [showOrderModal, setShowOrderModal] = useState(false);
     const { addToCart } = useCart();
     const router = useRouter();
 
@@ -40,7 +50,6 @@ export default function BookDetailClient({ id }) {
                 if (bookData.success) {
                     setBook(bookData.data);
 
-                    // Fetch related books by category
                     const allRes = await fetch("/api/books");
                     const allData = await allRes.json();
                     if (allData.success) {
@@ -59,12 +68,33 @@ export default function BookDetailClient({ id }) {
 
         fetchBookData();
 
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 400);
-        };
+        const handleScroll = () => setScrolled(window.scrollY > 400);
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [id]);
+
+    const totalPrice = book ? (book.price * quantity).toFixed(2) : 0;
+
+    const buildWaMessage = () => {
+        return (
+            `Assalam Admin,\n\n` +
+            `📚 *Pesanan Buku:*\n` +
+            `Tajuk: ${book.title}\n` +
+            `Penulis: ${book.author}\n` +
+            `Kuantiti: ${quantity} buah\n` +
+            `Harga Seunit: RM ${book.price}\n` +
+            `*Jumlah: RM ${totalPrice}*\n\n` +
+            `✅ Saya telah membuat bayaran dan akan menghantar resit segera.\n\n` +
+            `Sila sahkan pesanan saya. Terima kasih!`
+        );
+    };
+
+    const handleOrderNow = () => setShowOrderModal(true);
+
+    const handleSendWA = () => {
+        const msg = buildWaMessage();
+        window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+    };
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center">
@@ -148,15 +178,44 @@ export default function BookDetailClient({ id }) {
                             </div>
                         </div>
 
+                        {/* Quantity Selector */}
+                        <div className="flex items-center gap-4 mb-6">
+                            <span className="text-sm font-black uppercase tracking-widest text-primary/50">Quantity:</span>
+                            <div className="flex items-center gap-3 bg-primary/5 rounded-2xl px-4 py-2 border border-primary/10">
+                                <button
+                                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                                    className="p-1 rounded-lg hover:bg-primary/10 transition-colors text-primary"
+                                >
+                                    <Minus className="h-4 w-4" />
+                                </button>
+                                <span className="text-xl font-black text-primary-dark w-8 text-center">{quantity}</span>
+                                <button
+                                    onClick={() => setQuantity(q => q + 1)}
+                                    className="p-1 rounded-lg hover:bg-primary/10 transition-colors text-primary"
+                                >
+                                    <Plus className="h-4 w-4" />
+                                </button>
+                            </div>
+                            <span className="text-lg font-black text-primary-dark">
+                                Total: <span className="text-primary">RM {totalPrice}</span>
+                            </span>
+                        </div>
+
                         <div className="flex flex-wrap gap-4 items-center mb-12">
                             <button
-                                onClick={() => addToCart(book)}
+                                onClick={handleOrderNow}
+                                className="btn-premium bg-green-600 text-white hover:bg-green-700 px-10 py-4 shadow-xl shadow-green-600/30 flex items-center gap-3 text-lg flex-1 md:flex-none"
+                            >
+                                <Send className="h-5 w-5" /> Order Now
+                            </button>
+                            <button
+                                onClick={() => addToCart({ ...book, quantity })}
                                 className="btn-premium bg-primary text-white hover:bg-primary-dark px-10 py-4 shadow-xl shadow-primary/30 flex items-center gap-3 text-lg flex-1 md:flex-none"
                             >
                                 <ShoppingCart className="h-5 w-5" /> {t('add_to_cart')}
                             </button>
                             <a
-                                href={`https://wa.me/601136787525?text=Assalam%20admin%2C%20saya%20berminat%20dengan%20buku%3A%20${encodeURIComponent(book.title)}`}
+                                href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(`Assalam Admin, saya ingin bertanya tentang buku: ${book.title}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn-premium bg-white/50 backdrop-blur-md border border-primary/10 text-primary hover:bg-white/80 px-10 py-4 flex items-center gap-3 text-lg flex-1 md:flex-none"
@@ -187,7 +246,7 @@ export default function BookDetailClient({ id }) {
                     </motion.div>
                 </div>
 
-                {/* Enhanced Description Section */}
+                {/* Description Section */}
                 <div className="max-w-4xl mx-auto space-y-24 mt-32">
                     <motion.section
                         initial={{ opacity: 0, y: 30 }}
@@ -239,14 +298,14 @@ export default function BookDetailClient({ id }) {
                                     {t('author_role')}
                                 </p>
                                 <p className="text-xl text-primary/70 leading-relaxed italic border-l-4 border-primary/10 pl-8 ml-2">
-                                    {book.authorBio || `Sheikh ${book.author} is a distinguished scholar at Maktabah El Mukhtar, specializing in the meticulous preservation and dissemination of authentic Islamic literature. With years of experience in editing and classical research.`}
+                                    {book.authorBio || `Sheikh ${book.author} is a distinguished scholar at Maktabah El Mukhtar, specializing in the meticulous preservation and dissemination of authentic Islamic literature.`}
                                 </p>
                             </div>
                         </div>
                     </motion.section>
                 </div>
 
-                {/* Related Books Section */}
+                {/* Related Books */}
                 {relatedBooks.length > 0 && (
                     <section className="mt-32 pb-20">
                         <div className="flex items-end justify-between mb-12">
@@ -284,20 +343,105 @@ export default function BookDetailClient({ id }) {
                         className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-2xl border-t border-primary/10 p-4 z-40 lg:hidden flex gap-3 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]"
                     >
                         <button
+                            onClick={handleOrderNow}
+                            className="flex-1 bg-green-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-green-600/20 flex items-center justify-center gap-2"
+                        >
+                            <Send className="h-5 w-5" /> Order Now
+                        </button>
+                        <button
                             onClick={() => addToCart(book)}
                             className="flex-1 bg-primary text-white font-bold py-4 rounded-2xl shadow-xl shadow-primary/20 flex items-center justify-center gap-2"
                         >
                             <ShoppingCart className="h-5 w-5" /> {t('add_to_cart')}
                         </button>
-                        <a
-                            href={`https://wa.me/601136787525?text=Saya%20berminat%20dengan: ${encodeURIComponent(book.title)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-green-500 text-white p-4 rounded-2xl shadow-xl shadow-green-500/20"
-                        >
-                            <MessageSquare className="h-6 w-6" />
-                        </a>
                     </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* ── ORDER MODAL ─────────────────────────────────────────────── */}
+            <AnimatePresence>
+                {showOrderModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                            onClick={() => setShowOrderModal(false)}
+                            className="absolute inset-0 bg-primary-dark/70 backdrop-blur-sm"
+                        />
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="bg-white rounded-3xl w-full max-w-lg relative z-10 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+                        >
+                            {/* Header */}
+                            <div className="bg-primary p-6 text-white flex justify-between items-center">
+                                <div>
+                                    <h2 className="text-2xl font-black">Order Confirmation</h2>
+                                    <p className="text-white/70 text-sm mt-1">Complete your payment below</p>
+                                </div>
+                                <button onClick={() => setShowOrderModal(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                                    <X className="h-6 w-6" />
+                                </button>
+                            </div>
+
+                            <div className="p-6 space-y-6">
+                                {/* Order Summary */}
+                                <div className="bg-primary/5 rounded-2xl p-4 border border-primary/10">
+                                    <h3 className="font-black text-xs uppercase tracking-widest text-primary/50 mb-3">Order Summary</h3>
+                                    <div className="flex items-start gap-3">
+                                        <img src={book.coverImage} alt={book.title} className="w-12 h-16 object-cover rounded-lg shadow" />
+                                        <div className="flex-grow">
+                                            <p className="font-black text-primary-dark">{book.title}</p>
+                                            <p className="text-sm text-primary/60">By {book.author}</p>
+                                            <p className="text-sm text-primary/60 mt-1">Qty: {quantity} × RM {book.price}</p>
+                                        </div>
+                                        <p className="font-black text-xl text-primary whitespace-nowrap">RM {totalPrice}</p>
+                                    </div>
+                                </div>
+
+                                {/* QR Code Payment */}
+                                <div className="text-center">
+                                    <h3 className="font-black text-xs uppercase tracking-widest text-primary/50 mb-3">Scan to Pay</h3>
+                                    <div className="inline-block bg-white rounded-2xl shadow-xl border-4 border-primary/10 p-3">
+                                        <img
+                                            src="/qr.jpeg"
+                                            alt="Payment QR Code"
+                                            className="w-48 h-48 object-contain rounded-xl mx-auto"
+                                        />
+                                    </div>
+                                    <p className="text-2xl font-black text-primary mt-3">RM {totalPrice}</p>
+                                    <p className="text-sm text-primary/50 font-medium">Scan QR with any banking app or e-wallet</p>
+                                </div>
+
+                                {/* Instructions */}
+                                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 space-y-2">
+                                    <h3 className="font-black text-amber-800 text-sm uppercase tracking-wider">📋 Payment Instructions</h3>
+                                    <ol className="text-sm text-amber-700 space-y-1.5 list-decimal list-inside font-medium">
+                                        <li>Scan the QR code and pay <strong>RM {totalPrice}</strong></li>
+                                        <li>Take a <strong>screenshot</strong> of your payment receipt</li>
+                                        <li>Click <strong>"Send Order via WhatsApp"</strong> below</li>
+                                        <li>Attach the receipt screenshot in the WhatsApp chat</li>
+                                        <li>We will confirm your order and arrange delivery</li>
+                                    </ol>
+                                </div>
+
+                                {/* WA Button */}
+                                <button
+                                    onClick={handleSendWA}
+                                    className="w-full bg-green-600 text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-colors shadow-xl shadow-green-600/20 flex items-center justify-center gap-3"
+                                >
+                                    <MessageSquare className="h-5 w-5" />
+                                    Send Order via WhatsApp
+                                </button>
+
+                                <p className="text-center text-xs text-primary/40 font-medium">
+                                    Your order details (book name, quantity, price) will be pre-filled in WhatsApp
+                                </p>
+                            </div>
+                        </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
         </div>
