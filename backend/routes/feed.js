@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
             if (!item) return res.status(404).json({ success: false, error: 'Item not found' });
             return res.json({ success: true, data: item });
         }
-        const feedItems = await DailyFeed.find({ active: true }).sort({ date: -1 });
+        const feedItems = await DailyFeed.find({}).sort({ date: -1 });
         res.json({ success: true, data: feedItems });
     } catch (err) {
         res.status(400).json({ success: false, error: err.message });

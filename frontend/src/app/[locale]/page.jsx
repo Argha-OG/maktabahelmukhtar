@@ -13,6 +13,13 @@ export default function Home() {
     const [books, setBooks] = useState([]);
     const [authors, setAuthors] = useState([]);
 
+    // Derived lists — computed once books are loaded
+    const latestBooks = books.slice(0, 4);
+    const bestSellers = [
+        ...books.filter(b => b.isBestSeller),
+        ...books.filter(b => !b.isBestSeller)
+    ].slice(0, 4);
+
     useEffect(() => {
         // Fetch Books
         fetch("/api/books")
@@ -84,7 +91,7 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {books.slice(4, 8).map((book) => (
+                        {bestSellers.map((book) => (
                             <motion.div
                                 key={book._id}
                                 initial={{ opacity: 0, y: 20 }}
@@ -123,7 +130,7 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {books.slice(0, 4).map((book) => (
+                        {latestBooks.map((book) => (
                             <motion.div
                                 key={book._id}
                                 initial={{ opacity: 0, y: 20 }}

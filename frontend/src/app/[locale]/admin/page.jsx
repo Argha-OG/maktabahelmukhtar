@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Book, Newspaper, Users, ArrowUpRight, Plus, Eye, Image as ImageIcon, Home, Loader2, Star, Shield, Mail } from "lucide-react";
+import { Book, Newspaper, Users, ArrowUpRight, Plus, Eye, Image as ImageIcon, Home, Loader2, Star, Shield, Mail, Trash, AlertTriangle } from "lucide-react";
 import { Link } from "@/navigation";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
@@ -15,6 +16,31 @@ export default function AdminDashboard() {
         leads: 0
     });
     const [loading, setLoading] = useState(true);
+    const [clearing, setClearing] = useState(false);
+
+    const handleClearSeed = async () => {
+        const confirm = window.prompt(`⚠️ DANGER ZONE\n\nThis will permanently delete ALL books, feed items, gallery images, authors, and ads from the database.\n\nType DELETE to confirm:`);
+        if (confirm !== 'DELETE') {
+            toast.error('Cancelled — you must type DELETE exactly.');
+            return;
+        }
+        setClearing(true);
+        try {
+            const res = await fetch('/api/admin/clear-seed', { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                toast.success(`Cleared: ${data.deleted.books} books, ${data.deleted.feed} feed, ${data.deleted.gallery} gallery, ${data.deleted.authors} authors, ${data.deleted.ads} ads.`);
+                // Refresh stats
+                setStats({ books: 0, feed: 0, authors: 0, gallery: 0, ads: 0, leads: stats.leads });
+            } else {
+                toast.error(data.error || 'Clear failed.');
+            }
+        } catch (e) {
+            toast.error('Network error while clearing data.');
+        } finally {
+            setClearing(false);
+        }
+    };
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -145,6 +171,25 @@ export default function AdminDashboard() {
                         Contact Tech Support
                     </Link>
                 </div>
+            </div>
+
+            {/* Danger Zone */}
+            <div className="border-2 border-red-200 bg-red-50 p-8 rounded-[2rem]">
+                <div className="flex items-center gap-3 mb-4">
+                    <AlertTriangle className="h-6 w-6 text-red-500" />
+                    <h2 className="text-lg font-black text-red-700 uppercase tracking-widest">Danger Zone</h2>
+                </div>
+                <p className="text-sm text-red-600 font-medium mb-6 leading-relaxed">
+                    <strong>Clear All Seeded Data</strong> — permanently deletes every book, feed item, gallery image, author, and ad from the database. Use this to remove old demo/seeded records so only your real admin-added data remains. This action is <strong>irreversible</strong>.
+                </p>
+                <button
+                    onClick={handleClearSeed}
+                    disabled={clearing}
+                    className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-colors disabled:opacity-50"
+                >
+                    {clearing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash className="h-4 w-4" />}
+                    {clearing ? 'Clearing...' : 'Clear All Data'}
+                </button>
             </div>
         </div>
     );
