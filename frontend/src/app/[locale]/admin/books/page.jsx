@@ -369,7 +369,7 @@ export default function BookManagement() {
                             <div className="p-10 border-t bg-gray-50 flex justify-end gap-6">
                                 <button
                                     onClick={closeModal}
-                                    className="px-8 py-4 border border-primary/10 rounded-2xl font-black text-xs uppercase tracking-widest text-primary/40 hover:bg-gray-100 transition-colors"
+                                    className="px-8 py-4 bg-red-50 border border-red-200 text-red-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-100 transition-colors"
                                 >
                                     Cancel
                                 </button>

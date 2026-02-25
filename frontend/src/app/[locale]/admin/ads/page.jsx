@@ -236,7 +236,7 @@ export default function AdsManagement() {
                                     <label htmlFor="activeAd" className="text-sm font-bold text-primary-dark">Active Banner</label>
                                 </div>
                                 <div className="flex gap-4 pt-4">
-                                    <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-6 py-3 border border-primary/10 rounded-xl font-bold hover:bg-gray-50">Cancel</button>
+                                    <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-6 py-3 bg-red-50 border border-red-200 text-red-600 rounded-xl font-bold hover:bg-red-100 transition-colors">Cancel</button>
                                     <button type="submit" className="flex-1 px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 shadow-lg shadow-primary/20">Save Changes</button>
                                 </div>
                             </form>

@@ -19,7 +19,7 @@ export default function GalleryManagement() {
         description: "",
         imageUrl: "",
         date: new Date().toISOString().split('T')[0],
-        category: "Institutional"
+        category: "Event"
     });
 
     const fetchGallery = async () => {
@@ -109,7 +109,7 @@ export default function GalleryManagement() {
                     <p className="text-gray-500">Manage institutional events and photo records.</p>
                 </div>
                 <button
-                    onClick={() => { setEditingItem(null); setFormData({ title: "", description: "", imageUrl: "", date: new Date().toISOString().split('T')[0], category: "Institutional" }); setShowModal(true); }}
+                    onClick={() => { setEditingItem(null); setFormData({ title: "", description: "", imageUrl: "", date: new Date().toISOString().split('T')[0], category: "Event" }); setShowModal(true); }}
                     className="bg-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-primary/90 transition-all"
                 >
                     <Plus className="h-5 w-5" /> Add New Event
@@ -200,10 +200,10 @@ export default function GalleryManagement() {
                                             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                             className="w-full bg-primary/5 border border-primary/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20"
                                         >
-                                            <option value="Institutional">Institutional</option>
-                                            <option value="Events">Events</option>
-                                            <option value="Research">Research</option>
-                                            <option value="Community">Community</option>
+                                            <option value="Event">Event</option>
+                                            <option value="Institution">Institution</option>
+                                            <option value="Scholars">Scholars</option>
+                                            <option value="Workshop">Workshop</option>
                                         </select>
                                     </div>
                                 </div>
@@ -223,7 +223,7 @@ export default function GalleryManagement() {
                                     />
                                 </div>
                                 <div className="flex gap-4 pt-4">
-                                    <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-6 py-3 border border-primary/10 rounded-xl font-bold hover:bg-gray-50">Cancel</button>
+                                    <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-6 py-3 bg-red-50 border border-red-200 text-red-600 rounded-xl font-bold hover:bg-red-100 transition-colors">Cancel</button>
                                     <button type="submit" className="flex-1 px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 shadow-lg shadow-primary/20">Save Record</button>
                                 </div>
                             </form>
