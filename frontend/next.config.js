@@ -2,6 +2,10 @@ const withNextIntl = require('next-intl/plugin')();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Tell Next.js not to bundle these native/server-only packages
+    // Required for Vercel serverless to work with mongoose and bcryptjs
+    serverExternalPackages: ['mongoose', 'bcryptjs'],
+
     images: {
         remotePatterns: [
             {
@@ -11,7 +15,7 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'images.unsplash.com',
-            }
+            },
         ],
     },
 };
