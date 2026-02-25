@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = process.env.BACKEND_URL || 'https://maktabahelmukhtar-66zs.vercel.app';
 
 async function getAdminSession() {
     const session = await getServerSession(authOptions);

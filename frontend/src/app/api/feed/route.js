@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = process.env.BACKEND_URL || 'https://maktabahelmukhtar-66zs.vercel.app';
 
 export async function GET(req) {
     try {
