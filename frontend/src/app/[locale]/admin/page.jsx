@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Book, Newspaper, Users, ArrowUpRight, Plus, Eye, Image as ImageIcon, Home, Loader2, Star, Shield, Mail, Trash, AlertTriangle } from "lucide-react";
+import { Book, Newspaper, Users, ArrowUpRight, Plus, Eye, Image as ImageIcon, Home, Loader2, Star, Shield, Mail, Trash, AlertTriangle, MessageCircle, Library, TrendingUp } from "lucide-react";
 import { Link } from "@/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -30,7 +30,6 @@ export default function AdminDashboard() {
             const data = await res.json();
             if (data.success) {
                 toast.success(`Cleared: ${data.deleted.books} books, ${data.deleted.feed} feed, ${data.deleted.gallery} gallery, ${data.deleted.authors} authors, ${data.deleted.ads} ads.`);
-                // Refresh stats
                 setStats({ books: 0, feed: 0, authors: 0, gallery: 0, ads: 0, leads: stats.leads });
             } else {
                 toast.error(data.error || 'Clear failed.');
@@ -80,116 +79,150 @@ export default function AdminDashboard() {
         fetchStats();
     }, []);
 
-    const cards = [
-        { title: "Books Catalog", value: stats.books, icon: Book, color: "bg-blue-600", link: "/admin/books" },
-        { title: "Journal Posts", value: stats.feed, icon: Newspaper, color: "bg-emerald-600", link: "/admin/feed" },
-        { title: "Our Scholars", value: stats.authors, icon: Users, color: "bg-purple-600", link: "/admin/authors" },
-        { title: "Gallery Events", value: stats.gallery, icon: ImageIcon, color: "bg-amber-600", link: "/admin/gallery" },
-        { title: "Hero Banners", value: stats.ads, icon: Home, color: "bg-rose-600", link: "/admin/ads" },
-        { title: "Inbound Leads", value: stats.leads, icon: Mail, color: "bg-indigo-600", link: "/admin/leads" },
-    ];
-
     if (loading) return (
         <div className="h-96 flex flex-col items-center justify-center gap-4">
-            <Loader2 className="h-10 w-10 text-primary animate-spin" />
-            <p className="text-primary/40 font-black uppercase tracking-widest text-xs">Synchronizing Repository...</p>
+            <Loader2 className="h-10 w-10 text-blue-800 animate-spin" />
+            <p className="text-blue-800/40 font-black uppercase tracking-widest text-xs">Loading Dashboard...</p>
         </div>
     );
 
     return (
-        <div className="space-y-10">
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col md:flex-row md:items-end justify-between gap-4"
-            >
-                <div>
-                    <h1 className="text-4xl font-black text-primary-dark tracking-tight">System Overview</h1>
-                    <p className="text-primary/60 font-medium mt-1">Welcome to the Maktabah El Mukhtar Institutional Command Center.</p>
+        <div className="space-y-8 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {/* Book Stat */}
+                <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-blue-800/10 rounded-lg text-blue-800">
+                            <Library className="w-6 h-6" />
+                        </div>
+                        <span className="flex items-center text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-full">
+                            Active <TrendingUp className="w-3 h-3 ml-1" />
+                        </span>
+                    </div>
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Total Books</p>
+                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white mt-1">{stats.books}</h3>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary/30 bg-primary/5 px-4 py-2 rounded-full border border-primary/10">
-                    <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                    Operational Status: Optimal
-                </div>
-            </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {cards.map((card, idx) => (
-                    <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        className="bg-white p-8 rounded-[2rem] shadow-xl shadow-primary/5 border border-primary/5 flex items-center justify-between group hover:border-primary/20 transition-all"
-                    >
-                        <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-primary/40 mb-1">{card.title}</p>
-                            <h3 className="text-4xl font-black text-primary-dark tracking-tight">{card.value}</h3>
-                            <Link href={card.link} className="text-primary text-[10px] font-black uppercase tracking-[0.2em] flex items-center mt-6 group-hover:gap-2 transition-all">
-                                Manage Module <ArrowUpRight className="h-3 w-3" />
-                            </Link>
+                {/* Feed Stat */}
+                <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-emerald-600/10 rounded-lg text-emerald-600">
+                            <Newspaper className="w-6 h-6" />
                         </div>
-                        <div className={`${card.color} p-5 rounded-[1.5rem] text-white shadow-2xl shadow-current/20`}>
-                            <card.icon className="h-8 w-8" />
+                    </div>
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Daily Feed Posts</p>
+                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white mt-1">{stats.feed}</h3>
+                </div>
+
+                {/* Leads Stat */}
+                <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-gold-500/20 dark:border-gold-500/10 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-gold-500/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                    <div className="flex justify-between items-start mb-4 relative z-10">
+                        <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-gold-600">
+                            <Mail className="w-6 h-6" />
                         </div>
-                    </motion.div>
-                ))}
+                        {stats.leads > 0 && (
+                            <span className="flex items-center text-xs font-medium text-amber-600 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-full">
+                                Needs Action
+                            </span>
+                        )}
+                    </div>
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Pending Leads</p>
+                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white mt-1">{stats.leads}</h3>
+                </div>
+
+                {/* Authors Stat */}
+                <div className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-purple-600/10 rounded-lg text-purple-600">
+                            <Users className="w-6 h-6" />
+                        </div>
+                    </div>
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Writers & Scholars</p>
+                    <h3 className="text-3xl font-bold text-slate-900 dark:text-white mt-1">{stats.authors}</h3>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 bg-white p-10 rounded-[3rem] shadow-xl shadow-primary/5 border border-primary/5">
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-2xl font-black text-primary-dark tracking-tight">Command Shortcuts</h2>
-                        <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                        <Link href="/admin/books" className="p-6 bg-primary/5 rounded-3xl hover:bg-primary hover:text-white transition-all flex flex-col items-center gap-3 group">
-                            <Plus className="h-8 w-8 text-primary group-hover:text-white transition-colors" />
-                            <span className="text-xs font-black uppercase tracking-widest text-center">New Book</span>
-                        </Link>
-                        <Link href="/admin/feed" className="p-6 bg-primary/5 rounded-3xl hover:bg-emerald-600 hover:text-white transition-all flex flex-col items-center gap-3 group">
-                            <Plus className="h-8 w-8 text-emerald-600 group-hover:text-white transition-colors" />
-                            <span className="text-xs font-black uppercase tracking-widest text-center">New Article</span>
-                        </Link>
-                        <Link href="/admin/authors" className="p-6 bg-primary/5 rounded-3xl hover:bg-purple-600 hover:text-white transition-all flex flex-col items-center gap-3 group">
-                            <Plus className="h-8 w-8 text-purple-600 group-hover:text-white transition-colors" />
-                            <span className="text-xs font-black uppercase tracking-widest text-center">New Author</span>
-                        </Link>
-                        <Link href="/" className="p-6 bg-primary/5 rounded-3xl hover:bg-gray-800 hover:text-white transition-all flex flex-col items-center gap-3 group">
-                            <Eye className="h-8 w-8 text-primary group-hover:text-white transition-colors" />
-                            <span className="text-xs font-black uppercase tracking-widest text-center">Live Site</span>
-                        </Link>
+                <div className="lg:col-span-2 flex flex-col gap-6">
+                    {/* Management Module Links */}
+                    <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm overflow-hidden flex-1">
+                        <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/30">
+                            <h3 className="font-bold text-lg text-slate-900 dark:text-white">Management Modules</h3>
+                        </div>
+                        <div className="divide-y divide-slate-100 dark:divide-slate-700">
+                            {[
+                                { title: "Manage Books", desc: "Add or update the book catalog", link: "/admin/books", color: "text-blue-600", bg: "bg-blue-100", icon: Book },
+                                { title: "Daily Feed", desc: "Manage Islamic reminders and articles", link: "/admin/feed", color: "text-emerald-600", bg: "bg-emerald-100", icon: Newspaper },
+                                { title: "Writers Directory", desc: "Add or remove scholars and writers", link: "/admin/authors", color: "text-purple-600", bg: "bg-purple-100", icon: Users },
+                                { title: "Media Gallery", desc: "Manage images and events", link: "/admin/gallery", color: "text-amber-600", bg: "bg-amber-100", icon: ImageIcon },
+                            ].map((mod, i) => (
+                                <Link key={i} href={mod.link} className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors flex gap-4 items-center">
+                                    <div className={`w-10 h-10 rounded-full ${mod.bg} dark:bg-slate-700 flex items-center justify-center shrink-0 ${mod.color}`}>
+                                        <mod.icon className="w-5 h-5" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-medium text-slate-900 dark:text-white">{mod.title}</p>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{mod.desc}</p>
+                                    </div>
+                                    <ArrowUpRight className="text-slate-400 w-4 h-4" />
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
-                <div className="bg-primary-dark p-10 rounded-[3rem] text-white flex flex-col justify-between">
-                    <div>
-                        <h2 className="text-2xl font-black tracking-tight mb-4 text-white">Institutional Support</h2>
-                        <p className="text-white/60 font-medium text-sm leading-relaxed mb-8">Need assistance with the repository or management tools? Our technical team is available for elite support.</p>
+                <div className="flex flex-col gap-6">
+                    {/* Danger Zone replacing Quick Post */}
+                    <div className="bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-200 dark:border-red-900/50 shadow-sm overflow-hidden">
+                        <div className="p-5 border-b border-red-200 dark:border-red-900/50 bg-red-100/50 dark:bg-red-900/20">
+                            <h3 className="font-bold text-lg text-red-700 dark:text-red-400 flex items-center gap-2">
+                                <AlertTriangle className="w-5 h-5" />
+                                Danger Zone
+                            </h3>
+                        </div>
+                        <div className="p-5">
+                            <p className="text-sm text-red-600 dark:text-red-400 mb-4 leading-relaxed font-medium">
+                                Clear All Seeded Data — permanently deletes every entry from the database. Use this to remove old demo records.
+                            </p>
+                            <button
+                                onClick={handleClearSeed}
+                                disabled={clearing}
+                                className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg text-sm font-bold shadow-sm shadow-red-600/30 transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50"
+                            >
+                                {clearing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash className="w-4 h-4" />}
+                                {clearing ? 'Clearing...' : 'Clear All Data'}
+                            </button>
+                        </div>
                     </div>
-                    <Link href="https://wa.me/60195328616" target="_blank" className="w-full bg-white text-primary-dark py-5 rounded-2xl font-black text-xs uppercase tracking-widest text-center hover:bg-primary hover:text-white transition-all shadow-xl">
-                        Contact Tech Support
-                    </Link>
-                </div>
-            </div>
 
-            {/* Danger Zone */}
-            <div className="border-2 border-red-200 bg-red-50 p-8 rounded-[2rem]">
-                <div className="flex items-center gap-3 mb-4">
-                    <AlertTriangle className="h-6 w-6 text-red-500" />
-                    <h2 className="text-lg font-black text-red-700 uppercase tracking-widest">Danger Zone</h2>
+                    {/* System Status */}
+                    <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-xl p-5 text-white shadow-lg relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -mr-10 -mt-10 blur-2xl"></div>
+                        <div className="relative z-10">
+                            <h4 className="font-bold text-sm text-slate-300 uppercase tracking-wider mb-4">System Status</h4>
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]"></span>
+                                        <span className="text-sm font-medium">Database (MongoDB)</span>
+                                    </div>
+                                    <span className="text-xs text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded">Healthy</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-2">
+                                        <span className="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]"></span>
+                                        <span className="text-sm font-medium">Next.js App Router</span>
+                                    </div>
+                                    <span className="text-xs text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded">Optimal</span>
+                                </div>
+                            </div>
+                            <div className="mt-6 pt-4 border-t border-white/10 flex justify-between items-center">
+                                <span className="text-xs text-slate-400">All systems operational</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p className="text-sm text-red-600 font-medium mb-6 leading-relaxed">
-                    <strong>Clear All Seeded Data</strong> — permanently deletes every book, feed item, gallery image, author, and ad from the database. Use this to remove old demo/seeded records so only your real admin-added data remains. This action is <strong>irreversible</strong>.
-                </p>
-                <button
-                    onClick={handleClearSeed}
-                    disabled={clearing}
-                    className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-colors disabled:opacity-50"
-                >
-                    {clearing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash className="h-4 w-4" />}
-                    {clearing ? 'Clearing...' : 'Clear All Data'}
-                </button>
             </div>
         </div>
     );

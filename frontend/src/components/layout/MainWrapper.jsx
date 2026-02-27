@@ -7,7 +7,7 @@ export default function MainWrapper({ children }) {
     const isAdmin = pathname?.includes('/admin');
 
     return (
-        <main className={`flex-grow ${isAdmin ? '' : 'pt-28'}`}>
+        <main className="flex-grow">
             {children}
         </main>
     );

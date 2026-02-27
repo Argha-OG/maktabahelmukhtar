@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Book, Newspaper, Home, Info, Phone, Languages, ShoppingCart, MessageSquare, Menu, X, CreditCard, Image } from "lucide-react";
+import { Book, Newspaper, Home, Info, Phone, Languages, ShoppingCart, MessageSquare, Menu, X } from "lucide-react";
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname } from '@/navigation';
 import NextImage from "next/image";
@@ -22,148 +22,145 @@ const Navbar = () => {
     const otherLocaleName = locale === 'en' ? 'Malay' : 'English';
 
     const navLinks = [
-        { href: "/", label: t('home'), icon: Home },
-        { href: "/books", label: t('catalog'), icon: Book },
-        { href: "/feed", label: t('feed'), icon: Newspaper },
-        { href: "/gallery", label: t('gallery'), icon: Info },
-        { href: "/contact", label: t('contact'), icon: Phone },
+        { href: "/", label: t('home') },
+        { href: "/about", label: t('about') },
+        { href: "/books", label: t('catalog') },
+        { href: "/services", label: "Services" },
+        { href: "/authors", label: "Authors" },
+        { href: "/vision", label: "Vision" },
+        { href: "/feed", label: t('feed') },
+        { href: "/gallery", label: t('gallery') },
     ];
 
     return (
         <>
-            <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-                <motion.nav
-                    initial={{ y: -100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="glass-nav w-full max-w-6xl px-6 py-3 flex items-center justify-between"
-                >
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary">
-                        <NextImage
-                            src="/mem-logo.jpg"
-                            alt="Maktabah El Mukhtar Logo"
-                            width={32}
-                            height={32}
-                            className="h-8 w-8 object-contain rounded-md shadow-sm"
-                        />
-                        <span className="hidden sm:inline-block tracking-tight">Maktabah El Mukhtar</span>
+            <header className="bg-scholarly-blue-950 text-white shadow-lg sticky top-0 z-50">
+                <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+
+                    {/* Logo Area */}
+                    <Link href="/" className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center border border-gold-500 overflow-hidden">
+                            <NextImage
+                                src="/mem-logo.jpg"
+                                alt="Maktabah El Mukhtar Logo"
+                                width={40}
+                                height={40}
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
+                        <div>
+                            <h1 className="text-xl font-bold tracking-wide">Maktabah El Mukhtar</h1>
+                            <p className="text-[10px] text-gold-500 uppercase tracking-widest">Publishing Institution</p>
+                        </div>
                     </Link>
 
                     {/* Desktop Links */}
-                    <div className="hidden md:flex gap-6 items-center text-sm font-semibold text-primary/80">
+                    <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
                         {navLinks.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`hover:text-primary transition-all flex items-center gap-1 relative group ${pathname === item.href ? "text-primary px-3 py-1 bg-primary/5 rounded-full shadow-sm" : ""}`}
+                                className={`transition-colors ${pathname === item.href ? "text-gold-500" : "hover:text-gold-500"}`}
                             >
-                                <item.icon className="h-4 w-4" />
                                 {item.label}
-                                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full ${pathname === item.href ? "hidden" : ""}`} />
                             </Link>
                         ))}
-                    </div>
+                        <Link
+                            href="/contact"
+                            className="bg-gold-500 text-scholarly-blue-950 px-5 py-2 rounded-full font-semibold hover:bg-white transition-all flex items-center gap-2"
+                        >
+                            <Phone className="w-4 h-4" />
+                            {t('contact')}
+                        </Link>
 
-                    {/* Right Actions */}
-                    <div className="flex items-center gap-2">
-                        {/* Language switcher */}
+                        {/* Right Actions: Lang & Cart & Whatspp */}
+                        <div className="flex items-center gap-4 ml-4 border-l border-white/20 pl-4">
+                            <Link
+                                href={pathname}
+                                locale={otherLocale}
+                                className="hover:text-gold-500 transition-colors"
+                                title={otherLocaleName}
+                            >
+                                <Languages className="h-5 w-5" />
+                            </Link>
+
+                            <button
+                                onClick={() => setIsCartOpen(true)}
+                                className="hover:text-gold-500 transition-colors relative"
+                            >
+                                <ShoppingCart className="h-5 w-5" />
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
+                    </nav>
+
+                    {/* Mobile Menu & Actions */}
+                    <div className="flex md:hidden items-center gap-3">
                         <Link
                             href={pathname}
                             locale={otherLocale}
-                            className="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary"
-                            title={otherLocaleName}
+                            className="hover:text-gold-500 transition-colors"
                         >
                             <Languages className="h-5 w-5" />
                         </Link>
-
-                        {/* Cart */}
                         <button
                             onClick={() => setIsCartOpen(true)}
-                            className="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary relative"
+                            className="hover:text-gold-500 transition-colors relative"
                         >
                             <ShoppingCart className="h-5 w-5" />
                             {cartCount > 0 && (
-                                <span className="absolute top-0 right-0 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                                     {cartCount}
                                 </span>
                             )}
                         </button>
-
-                        {/* WhatsApp — desktop only */}
-                        <a
-                            href="https://wa.me/60195328616"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hidden md:flex btn-premium bg-primary text-white hover:bg-primary-dark shadow-md items-center gap-2 text-sm"
-                        >
-                            <MessageSquare className="h-4 w-4" /> {t('contact_button')}
-                        </a>
-
-                        {/* Hamburger — mobile only */}
                         <button
                             onClick={() => setMobileOpen(!mobileOpen)}
-                            className="md:hidden p-2 rounded-full hover:bg-primary/5 transition-colors text-primary"
+                            className="text-white hover:text-gold-500 transition-colors ml-2"
                             aria-label="Toggle menu"
                         >
-                            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>
                     </div>
-                </motion.nav>
+
+                </div>
             </header>
 
             {/* Mobile Menu Dropdown */}
             <AnimatePresence>
                 {mobileOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.2 }}
-                        className="fixed top-24 left-4 right-4 z-40 md:hidden"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden bg-scholarly-blue-950 border-t border-white/10 overflow-hidden"
                     >
-                        <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-primary/10 p-4 flex flex-col gap-1">
+                        <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
                             {navLinks.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
                                     onClick={() => setMobileOpen(false)}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl font-semibold text-sm transition-all
-                                        ${pathname === item.href
-                                            ? "bg-primary text-white shadow-md"
-                                            : "text-primary/80 hover:bg-primary/5 hover:text-primary"
-                                        }`}
+                                    className={`text-sm font-medium ${pathname === item.href ? "text-gold-500" : "text-white hover:text-gold-500"}`}
                                 >
-                                    <item.icon className="h-5 w-5" />
                                     {item.label}
                                 </Link>
                             ))}
-
-                            <div className="border-t border-primary/10 mt-2 pt-3">
-                                <a
-                                    href="https://wa.me/60195328616"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                            <div className="pt-2">
+                                <Link
+                                    href="/contact"
                                     onClick={() => setMobileOpen(false)}
-                                    className="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 rounded-2xl font-bold text-sm shadow-lg shadow-primary/20"
+                                    className="bg-gold-500 text-scholarly-blue-950 px-5 py-2 md:inline-flex rounded-full font-semibold hover:bg-white transition-all text-sm block text-center"
                                 >
-                                    <MessageSquare className="h-4 w-4" /> {t('contact_button')}
-                                </a>
+                                    {t('contact')}
+                                </Link>
                             </div>
                         </div>
                     </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Backdrop */}
-            <AnimatePresence>
-                {mobileOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-30 md:hidden"
-                        onClick={() => setMobileOpen(false)}
-                    />
                 )}
             </AnimatePresence>
         </>

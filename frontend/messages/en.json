@@ -1,6 +1,7 @@
 {
     "Navbar": {
         "home": "Home",
+        "about": "About Us",
         "catalog": "Catalog",
         "feed": "Daily Feed",
         "gallery": "Gallery",

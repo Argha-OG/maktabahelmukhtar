@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageSquare, ShoppingCart, Plus } from "lucide-react";
+import { MessageSquare, ShoppingCart } from "lucide-react";
 import { Link } from "@/navigation";
-import Image from "next/image";
 import { useTranslations } from 'next-intl';
 
 import { useCart } from "@/context/CartContext";
@@ -14,71 +13,63 @@ export default function BookCard({ book }) {
 
     return (
         <motion.div
-            whileHover={{ y: -10 }}
-            className="glass-card group flex flex-col h-full overflow-hidden"
+            whileHover={{ y: -4 }}
+            className="book-card bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col h-full hover:shadow-lg transition-all group/card"
         >
-            <div className="relative h-72 overflow-hidden">
-                <Link href={`/books/${book._id}`}>
-                    <img
-                        src={book.coverImage}
-                        alt={book.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 cursor-pointer"
-                    />
-                </Link>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 pointer-events-none">
-                    <div className="w-full bg-white/20 backdrop-blur-md text-white border border-white/30 py-2 rounded-xl flex items-center justify-center gap-2 hover:bg-white/40 transition-all font-bold">
-                        <Plus className="h-4 w-4" /> {t('view_all')}
-                    </div>
+            <div className="relative aspect-[3/4] bg-slate-100 overflow-hidden group">
+                <div className="absolute inset-0 flex items-center justify-center bg-[#f4f1ea] text-[#8c8c8c]">
+                    <Link href={`/books/${book._id}`} className="w-full h-full block">
+                        <img
+                            src={book.coverImage}
+                            alt={book.title}
+                            className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500 cursor-pointer"
+                        />
+                    </Link>
                 </div>
-                <div className="absolute top-3 right-3 flex flex-col gap-2 items-end">
-                    <span className="bg-primary/80 backdrop-blur-md text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-                        {book.category}
-                    </span>
-                    {book.isBestSeller && (
-                        <span className="bg-yellow-500 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider shadow-lg">
-                            {t('best_seller')}
-                        </span>
-                    )}
+                {book.isBestSeller && (
+                    <div className="absolute top-3 left-3 bg-gold-500 text-white text-xs font-bold px-2 py-1 rounded shadow-sm z-10">
+                        TERLARIS
+                    </div>
+                )}
+                <div
+                    onClick={() => addToCart(book)}
+                    className="absolute bottom-4 right-4 bg-white/90 backdrop-blur rounded-full w-10 h-10 flex items-center justify-center shadow-lg cursor-pointer hover:bg-gold-500 hover:text-white transition-colors z-20"
+                    title={t('add_to_cart')}
+                >
+                    <ShoppingCart className="text-scholarly-blue-950 w-5 h-5 group-hover/card:text-scholarly-blue-950 transition-colors" />
                 </div>
             </div>
 
-            <div className="p-5 flex-grow flex flex-col">
-                <div className="mb-2 flex justify-between items-start gap-2">
-                    <div className="flex-grow">
-                        <Link href={`/books/${book._id}`}>
-                            <h3 className="font-bold text-lg text-primary-dark line-clamp-1 group-hover:text-primary transition-colors cursor-pointer">
-                                {book.title}
-                            </h3>
-                        </Link>
-                        <p className="text-xs text-primary/60 italic font-medium">By {book.author}</p>
+            <div className="p-5 flex flex-col flex-grow">
+                {book.category && (
+                    <div className="mb-1 text-xs text-scholarly-blue-900 font-semibold uppercase tracking-wide">
+                        {book.category}
                     </div>
-                    <div className="text-right flex flex-col items-end">
-                        <span className="text-primary font-black text-xl">RM{book.price || '0'}</span>
-                        <span className="text-[10px] text-primary/40 font-bold uppercase">Price</span>
+                )}
+                <Link href={`/books/${book._id}`}>
+                    <h3 className="font-serif text-xl font-bold text-slate-900 leading-tight mb-2 hover:text-scholarly-blue-900 cursor-pointer line-clamp-2">
+                        {book.title}
+                    </h3>
+                </Link>
+                <p className="text-sm text-slate-500 mb-4 truncate">Oleh {book.author}</p>
+
+                <div className="mt-auto flex items-end justify-between border-t border-slate-100 pt-4">
+                    <div>
+                        <span className="block text-xs text-slate-400 mb-0.5">Harga</span>
+                        <span className="text-lg font-bold text-slate-900">
+                            RM {book.price ? parseFloat(book.price).toFixed(2) : '0.00'}
+                        </span>
                     </div>
                 </div>
 
-                <p className="text-sm text-primary/70 line-clamp-2 mb-6 flex-grow leading-relaxed">
-                    {book.description}
-                </p>
-
-                <div className="flex gap-2">
-                    <button
-                        onClick={() => addToCart(book)}
-                        className="flex-1 bg-primary text-white py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary-dark transition-all shadow-md shadow-primary/20"
-                    >
-                        <ShoppingCart className="h-4 w-4" /> {t('add_to_cart')}
-                    </button>
-                    <a
-                        href={`https://wa.me/${book.whatsappLink || '60195328616'}?text=${encodeURIComponent(`Assalam Admin, saya ingin memesan:\n📚 Buku: ${book.title}\n💰 Harga: RM ${book.price}\n\nSila konfirmasi.`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-white/50 backdrop-blur-sm border border-primary/10 p-2.5 rounded-xl text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
-                        title={t('order')}
-                    >
-                        <MessageSquare className="h-5 w-5" />
-                    </a>
-                </div>
+                <a
+                    href={`https://wa.me/${book.whatsappLink || '60195328616'}?text=${encodeURIComponent(`Assalam Admin, saya ingin memesan:\n📚 Buku: ${book.title}\n💰 Harga: RM ${book.price}\n\nSila konfirmasi.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white py-2.5 rounded-md font-medium text-sm transition-colors shadow-sm"
+                >
+                    <MessageSquare className="w-5 h-5" /> Beli di WhatsApp
+                </a>
             </div>
         </motion.div>
     );

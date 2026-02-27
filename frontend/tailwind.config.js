@@ -8,6 +8,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'scholarly-blue': {
+          50: '#F0F4F8',
+          800: '#1B2B48',
+          900: '#112240',
+          950: '#0A192F',
+        },
+        'gold': {
+          500: '#D4AF37',
+          600: '#B8860B',
+        },
+        'sand': {
+          50: '#FFFCF5',
+        },
         primary: {
           DEFAULT: "#0047AB", // Deep Blue
           light: "#E3F2FD",
@@ -17,6 +30,11 @@ module.exports = {
           white: "rgba(255, 255, 255, 0.1)",
           border: "rgba(255, 255, 255, 0.2)",
         }
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        serif: ['"Playfair Display"', 'serif'],
+        arabic: ['Amiri', 'serif'],
       },
       backdropBlur: {
         xs: '2px',
