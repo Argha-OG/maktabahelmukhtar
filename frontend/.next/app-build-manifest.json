@@ -16,21 +16,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/[locale]/page.js"
     ],
-    "/[locale]/about/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/about/page.js"
-    ],
-    "/[locale]/feed/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/feed/page.js"
-    ],
-    "/[locale]/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/gallery/page.js"
-    ],
     "/[locale]/admin/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -41,10 +26,35 @@
       "static/chunks/main-app.js",
       "static/chunks/app/[locale]/admin/layout.js"
     ],
-    "/[locale]/admin/books/page": [
+    "/[locale]/about/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/admin/books/page.js"
+      "static/chunks/app/[locale]/about/page.js"
+    ],
+    "/[locale]/authors/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/authors/page.js"
+    ],
+    "/[locale]/services/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/services/page.js"
+    ],
+    "/[locale]/vision/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/vision/page.js"
+    ],
+    "/[locale]/feed/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/feed/page.js"
+    ],
+    "/[locale]/gallery/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/gallery/page.js"
     ]
   }
 }

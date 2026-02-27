@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Book, Newspaper, Users, ArrowUpRight, Plus, Eye, Image as ImageIcon, Home, Loader2, Star, Shield, Mail, Trash, AlertTriangle, MessageCircle, Library, TrendingUp } from "lucide-react";
+import { Book, Newspaper, Users, ArrowUpRight, Plus, Eye, Image as ImageIcon, Home, Loader2, Star, Shield, Mail, Trash, MessageCircle, Library, TrendingUp } from "lucide-react";
 import { Link } from "@/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -16,30 +16,7 @@ export default function AdminDashboard() {
         leads: 0
     });
     const [loading, setLoading] = useState(true);
-    const [clearing, setClearing] = useState(false);
 
-    const handleClearSeed = async () => {
-        const confirm = window.prompt(`⚠️ DANGER ZONE\n\nThis will permanently delete ALL books, feed items, gallery images, authors, and ads from the database.\n\nType DELETE to confirm:`);
-        if (confirm !== 'DELETE') {
-            toast.error('Cancelled — you must type DELETE exactly.');
-            return;
-        }
-        setClearing(true);
-        try {
-            const res = await fetch('/api/admin/clear-seed', { method: 'POST' });
-            const data = await res.json();
-            if (data.success) {
-                toast.success(`Cleared: ${data.deleted.books} books, ${data.deleted.feed} feed, ${data.deleted.gallery} gallery, ${data.deleted.authors} authors, ${data.deleted.ads} ads.`);
-                setStats({ books: 0, feed: 0, authors: 0, gallery: 0, ads: 0, leads: stats.leads });
-            } else {
-                toast.error(data.error || 'Clear failed.');
-            }
-        } catch (e) {
-            toast.error('Network error while clearing data.');
-        } finally {
-            setClearing(false);
-        }
-    };
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -173,28 +150,6 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="flex flex-col gap-6">
-                    {/* Danger Zone replacing Quick Post */}
-                    <div className="bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-200 dark:border-red-900/50 shadow-sm overflow-hidden">
-                        <div className="p-5 border-b border-red-200 dark:border-red-900/50 bg-red-100/50 dark:bg-red-900/20">
-                            <h3 className="font-bold text-lg text-red-700 dark:text-red-400 flex items-center gap-2">
-                                <AlertTriangle className="w-5 h-5" />
-                                Danger Zone
-                            </h3>
-                        </div>
-                        <div className="p-5">
-                            <p className="text-sm text-red-600 dark:text-red-400 mb-4 leading-relaxed font-medium">
-                                Clear All Seeded Data — permanently deletes every entry from the database. Use this to remove old demo records.
-                            </p>
-                            <button
-                                onClick={handleClearSeed}
-                                disabled={clearing}
-                                className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg text-sm font-bold shadow-sm shadow-red-600/30 transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50"
-                            >
-                                {clearing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash className="w-4 h-4" />}
-                                {clearing ? 'Clearing...' : 'Clear All Data'}
-                            </button>
-                        </div>
-                    </div>
 
                     {/* System Status */}
                     <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-xl p-5 text-white shadow-lg relative overflow-hidden">
