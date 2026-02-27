@@ -11,10 +11,13 @@ async function getAdminSession() {
 
 export async function GET() {
     try {
+        console.log(`Proxying GET /api/admin/authors to ${BACKEND_URL}/api/admin/authors`);
         const res = await fetch(`${BACKEND_URL}/api/admin/authors`);
         const data = await res.json();
+        console.log("Backend response received:", data.success ? `success (${data.data?.length} authors)` : "fail");
         return NextResponse.json(data, { status: res.status });
     } catch (err) {
+        console.error("Proxy GET authors error:", err);
         return NextResponse.json({ success: false, error: err.message }, { status: 500 });
     }
 }

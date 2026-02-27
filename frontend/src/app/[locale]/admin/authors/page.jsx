@@ -27,8 +27,14 @@ export default function AuthorManagement() {
         try {
             const res = await fetch("/api/admin/authors");
             const data = await res.json();
-            if (data.success) setAuthors(data.data);
+            console.log("Authors API Response:", data);
+            if (data.success) {
+                setAuthors(data.data);
+            } else {
+                console.error("Authors fetch failed:", data.error);
+            }
         } catch (error) {
+            console.error("Authors fetch exception:", error);
             toast.error("Cloud synchronization failed");
         } finally {
             setLoading(false);

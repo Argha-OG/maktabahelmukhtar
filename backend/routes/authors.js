@@ -6,8 +6,10 @@ const Author = require('../models/Author');
 router.get('/', async (req, res) => {
     try {
         const authors = await Author.find({});
+        console.log(`Backend API: Found ${authors.length} authors in DB`);
         res.json({ success: true, data: authors });
     } catch (err) {
+        console.error("Backend API: GET authors error:", err);
         res.status(400).json({ success: false, error: err.message });
     }
 });
